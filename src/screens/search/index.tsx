@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Box, Divider, Input, Spinner, Text } from 'native-base'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { searchOrganizations } from '../../api/api-search';
+import { searchUsers } from '../../api/api-search';
 import { Params } from '../../models/Params'
 import {View, StyleSheet} from 'react-native'
 import Container from '../../components/Container'
@@ -17,8 +17,7 @@ interface IRoute {
 export default function SearchScreen (): JSX.Element {
   const { params }: IRoute = useRoute()
 
-  const { goBack } = useNavigation()
-
+  const { navigate } = useNavigation()
   const [query, setQuery] = useState(params.query)
 
   const [loading, setLoading] = useState(true)
@@ -31,7 +30,7 @@ export default function SearchScreen (): JSX.Element {
     setOrganization(null)
 
     try {
-      const response = await searchOrganizations(query)
+      const response = await searchUsers(query)
 
       if (response === null) {
         setOrganization(null)
@@ -45,8 +44,18 @@ export default function SearchScreen (): JSX.Element {
     }
   }
 
+ 
+  const handle = (): void => {
+    navigate('Starred', {
+      query,
+      organization
+    })
+
+    setQuery('')
+  }
   useEffect(() => {
     handleSearch() 
+
   }, [])
 
   const Dados = useCallback((): JSX.Element => {
@@ -55,7 +64,7 @@ export default function SearchScreen (): JSX.Element {
 
     if (organization != null) {
       return (
-        <Container organization={organization} />
+        <Container organization={organization} onPress={handle}/>
       )
     }
 

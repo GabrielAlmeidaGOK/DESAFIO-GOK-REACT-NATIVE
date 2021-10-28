@@ -6,29 +6,16 @@ import Header from '../components/Header'
 import { Params } from '../models/Params'
 
 import { Entypo, Foundation } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ICard {
   organization: Params
+  onPress?: any
 }
 
-export default function Container ({ organization }: ICard): JSX.Element {
+export default function Container ({ organization, onPress}: ICard): JSX.Element {
 
 
-  const [salvo, setSalvo] = useState(false)
-
-
-
-
-  //Abrir via browser
-  const openBrowser = (): void => {
-    Alert.alert('Acesso via Browser', '', [
-      {
-        text: 'Cancelar',
-        onPress: () => null
-      },
-      { text: 'OK', onPress: async () => await Linking.openURL(`https://github.com/${organization.login}`) }
-    ])
-  }
 
   return (
     
@@ -40,26 +27,28 @@ export default function Container ({ organization }: ICard): JSX.Element {
           
           renderItem={({ item }: any) => (
             <View style={styles.item}>
-              <View style={styles.nameImage}>
-                  <Image 
-                      source={{uri: organization.avatar_url}}
-                      style={styles.image}
-                  />
-                  <View style={styles.nameContain}>
-                      <View style={styles.containIcon}>
-                          <Text style={styles.name}>{organization.login}</Text>
+              
+                <View style={styles.nameImage}>
+                    <Image 
+                        source={{uri: organization.avatar_url}}
+                        style={styles.image}
+                    />
+                    <View style={styles.nameContain}>
+                        <View style={styles.containIcon}>
+                        <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
+                            <Text style={styles.name}>{organization.login}</Text>
+                        </TouchableOpacity>
+                        <View style={styles.icons}>
+                            <Entypo name="chevron-small-right" size={40} color="black" style={{marginLeft: 20}}/>
+                            <Foundation name="trash" size={25} color="black" style={styles.trash}/>
+                        </View>
+                          
+                        </View>
                     
-                      <View style={styles.icons}>
-                          <Entypo name="chevron-small-right" size={40} color="black"/>
-                          <Foundation name="trash" size={25} color="black" style={styles.trash}/>
-                      </View>
-                        
-                      </View>
-                  
-                      <Text style={styles.arroba}>@{item.login}</Text>
-                  </View>
-              </View>
-              <Text style={styles.org}>{item.organizations_url}</Text>
+                        <Text style={styles.arroba}>@{item.login}</Text>
+                    </View>
+                </View>
+          
           </View>   
           )}
         />
@@ -148,13 +137,13 @@ const styles = StyleSheet.create({
       fontSize: Typography.FONT_SIZE_21,
       marginLeft: 20,
       marginTop: 10,
-      width: '45%'
+      width: '100%'
   },
 
   arroba: {
     fontSize: Typography.FONT_SIZE_21,
     marginLeft: 20,
-    width: '45%'
+    width: '40%'
   },
 
   nameContain: {

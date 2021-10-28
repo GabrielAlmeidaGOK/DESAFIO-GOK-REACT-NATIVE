@@ -4,7 +4,7 @@ import { Params } from '../models/Params'
 const URL = 'https://api.github.com'
 
 
-const searchOrganizations = async (username: string): Promise<Params | null> => {
+const searchUsers = async (username: string): Promise<Params | null> => {
   const response = await fetch(`${URL}/users/${username}`)
 
   const data: Params = await response.json()
@@ -16,4 +16,4 @@ const searchOrganizations = async (username: string): Promise<Params | null> => 
   }
 }
 
-export {searchOrganizations} 
+export {searchUsers} 
