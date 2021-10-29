@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {Colors, Typography} from '../../styles'
 
-// create a component
-const Header: React.FC = () =>  {
+interface Props {
+    onPress : any
+}
+
+const Header: React.FC<Props> = ({onPress}) =>  {
     return (
         <View style={styles.container}>
             <Image 
@@ -12,7 +15,7 @@ const Header: React.FC = () =>  {
               resizeMode='contain'
             />
 
-            <TouchableOpacity style={styles.button} /* onPress={() => navigation.navigate('Users')} */>
+            <TouchableOpacity style={styles.button} onPress={onPress} >
                 <Text style={styles.textButton}>Adicionar novo</Text>
             </TouchableOpacity>
         </View>

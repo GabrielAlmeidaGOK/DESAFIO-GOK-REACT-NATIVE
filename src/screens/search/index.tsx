@@ -14,7 +14,7 @@ interface IRoute {
   key: string
 }
 
-export default function SearchScreen (): JSX.Element {
+export default function SearchScreen ({navigation} : any): JSX.Element {
   const { params }: IRoute = useRoute()
 
   const { navigate } = useNavigation()
@@ -78,7 +78,9 @@ export default function SearchScreen (): JSX.Element {
 
   return (
     <View>
-      <Header/>
+      <Header
+        onPress={() => navigation.navigate('Home')}
+      />
 
       <View style={styles.list}>
           <Dados/>

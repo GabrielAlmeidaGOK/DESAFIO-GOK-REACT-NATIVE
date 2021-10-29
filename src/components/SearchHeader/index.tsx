@@ -2,20 +2,25 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {Colors, Typography} from '../../styles'
 import { AntDesign } from '@expo/vector-icons';
+import { NavigationContext } from '@react-navigation/native';
 
 
 interface Props {
     source?: any
+    navigation: any
 }
 
 const SearchHeader: React.FC<Props> = ({
-    source
+    source,
+    navigation
 }) =>  {
     return (
         <View style={styles.container}>
-          
-          <AntDesign name="arrowleft" size={30} color="black" style={styles.arrow}/>
-          
+
+          <TouchableOpacity onPress={navigation}>
+            <AntDesign name="arrowleft" size={30} color="black" style={styles.arrow}/>
+          </TouchableOpacity>
+         
         </View>
     );
 };

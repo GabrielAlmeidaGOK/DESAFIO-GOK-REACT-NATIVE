@@ -24,7 +24,7 @@ export default function Container ({ organization, onPress}: ICard): JSX.Element
 
        <FlatList
           data={[{name: 'a'}, {name: 'b'}, {name: 'c'}]} 
-          
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }: any) => (
             <View style={styles.item}>
               
@@ -45,7 +45,7 @@ export default function Container ({ organization, onPress}: ICard): JSX.Element
                           
                         </View>
                     
-                        <Text style={styles.arroba}>@{item.login}</Text>
+                        <Text style={styles.arroba}>@{organization.login}</Text>
                     </View>
                 </View>
           
@@ -141,9 +141,9 @@ const styles = StyleSheet.create({
   },
 
   arroba: {
-    fontSize: Typography.FONT_SIZE_21,
+    fontSize: Typography.FONT_SIZE_16,
     marginLeft: 20,
-    width: '40%'
+    width: '50%'
   },
 
   nameContain: {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
       alignContent: 'flex-end',
       justifyContent: 'space-between',
-      width:'40%'
+    
   },
 
   trash: {
@@ -168,7 +168,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       textAlignVertical: 'center',
       width: 40,
-      height: 40
+      height: 40,
+      marginLeft: 30
   },
 
   org: {
