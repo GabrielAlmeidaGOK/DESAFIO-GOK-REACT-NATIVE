@@ -10,9 +10,7 @@
     DESAFIO GOK
     </p>
     <p>STEPS TO START</p>
-    <p>1:</p>
-    <text>install dependencies with: npm install or yarn</text>
-    <text>if dispositive ios cd ios... after pod install</text>
-    <p>2:</p>
-    <text>yarn android or yarn ios</text>
+    <p>1: install dependencies with: npm install or yarn</p>
+    <p>if dispositive ios cd ios... after pod install</p>
+    <p>2: yarn android or yarn ios</p>
 </div>
