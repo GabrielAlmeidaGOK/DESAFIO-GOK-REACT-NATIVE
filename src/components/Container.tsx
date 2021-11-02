@@ -9,11 +9,11 @@ import { Entypo, Foundation } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ICard {
-  organization: Params
+  users: Params
   onPress?: any
 }
 
-export default function Container ({ organization, onPress}: ICard): JSX.Element {
+export default function Container ({ users, onPress}: ICard): JSX.Element {
 
 
 
@@ -30,13 +30,13 @@ export default function Container ({ organization, onPress}: ICard): JSX.Element
               
                 <View style={styles.nameImage}>
                     <Image 
-                        source={{uri: organization.avatar_url}}
+                        source={{uri: users.avatar_url}}
                         style={styles.image}
                     />
                     <View style={styles.nameContain}>
                         <View style={styles.containIcon}>
                         <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
-                            <Text style={styles.name}>{organization.login}</Text>
+                            <Text style={styles.name}>{users.login}</Text>
                         </TouchableOpacity>
                         <View style={styles.icons}>
                             <Entypo name="chevron-small-right" size={40} color="black" style={{marginLeft: 20}}/>
@@ -45,7 +45,7 @@ export default function Container ({ organization, onPress}: ICard): JSX.Element
                           
                         </View>
                     
-                        <Text style={styles.arroba}>@{organization.login}</Text>
+                        <Text style={styles.arroba}>@{users.login}</Text>
                     </View>
                 </View>
           

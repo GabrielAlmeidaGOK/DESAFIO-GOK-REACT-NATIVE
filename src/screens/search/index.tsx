@@ -22,20 +22,20 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [organization, setOrganization] = useState<Params | null>(null)
+  const [users, setUser] = useState<Params | null>(null)
 
   const handleSearch = async (): Promise<void> => {
     setLoading(true)
     setError(false)
-    setOrganization(null)
+    setUser(null)
 
     try {
       const response = await searchUsers(query)
 
       if (response === null) {
-        setOrganization(null)
+        setUser(null)
       } else {
-        setOrganization(response)
+        setUser(response)
       }
     } catch {
       setError(true)
@@ -48,7 +48,7 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
   const handle = (): void => {
     navigate('Starred', {
       query,
-      organization
+      users
     })
 
     setQuery('')
@@ -62,9 +62,9 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
     //Carregamento dos dados
    
 
-    if (organization != null) {
+    if (users != null) {
       return (
-        <Container organization={organization} onPress={handle}/>
+        <Container users={users} onPress={handle}/>
       )
     }
 
@@ -74,7 +74,7 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
         <Text textAlign='center'>Oops! Não encontramos organizações com este nome.</Text>
       </Box>
     )
-  }, [loading, error, organization])
+  }, [loading, error, users])
 
   return (
     <View>
