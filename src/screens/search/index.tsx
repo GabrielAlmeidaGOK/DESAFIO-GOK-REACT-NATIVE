@@ -67,7 +67,7 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
         <Container users={users} onPress={handle}/>
       )
     }
-
+   
     return (
       <Box flex={0.8} justifyContent='center' alignItems='center'>
        

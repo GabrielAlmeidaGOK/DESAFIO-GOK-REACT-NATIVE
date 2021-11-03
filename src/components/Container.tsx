@@ -23,7 +23,7 @@ export default function Container ({ users, onPress}: ICard): JSX.Element {
       <SafeAreaView style={styles.container}>
 
        <FlatList
-          data={[{name: 'a'}, {name: 'b'}, {name: 'c'}]} 
+          data={[{name: 'a'}]} 
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }: any) => (
             <View style={styles.item}>

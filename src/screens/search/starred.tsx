@@ -3,13 +3,15 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { Params } from '../../models/Params'
 import {SafeAreaView, Text, StyleSheet, FlatList, View, Image, Linking} from 'react-native'
 import {Colors, Typography} from '../../styles'
-import { Entypo, Foundation, FontAwesome} from '@expo/vector-icons';
+import { Entypo, FontAwesome} from '@expo/vector-icons';
 import Header from '../../components/SearchHeader'
 import api from '../../api/api'
-
+import ModalView from '../../components/Modais/Modal'
+import ModalAdd from '../../components/Modais/ModalAdd'
+import ModalEdit from '../../components/Modais/ModalEdit'
 
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { fontWeight } from 'styled-system'
+
 
 
 interface IRoute {
@@ -19,17 +21,18 @@ interface IRoute {
   key: string
 }
 
+
+
 export default function SearchScreen ({navigation}: any): JSX.Element {
 
   const { params }: IRoute = useRoute()
   const { navigate } = useNavigation()
   const [query, setQuery] = useState(params.query)
   const [star, setStar] = useState<Params[]>([])
-  const [organization, setOrganization] = useState<Params | null>(null)
-  
 
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [add, setAdd] = useState(false)
+  const [edit, setEdit] = useState(false)
 
   useEffect(() => {
     async function getStarredRepos() {
@@ -43,7 +46,24 @@ export default function SearchScreen ({navigation}: any): JSX.Element {
     getStarredRepos();
   }, []);
 
+  function Adicionar(){
+    setAdd(!add)
+    setModalVisible(false)
+  }
+  function Editar(){
+    setEdit(!edit)
+    setModalVisible(false)
+  }
 
+  function CancelEdit() {
+    setModalVisible(false)
+    setEdit(false)
+  }
+
+  function CancelAdd() {
+    setModalVisible(false)
+    setAdd(false)
+  }
   return (
     <SafeAreaView style={styles.container}>
        
@@ -99,7 +119,11 @@ export default function SearchScreen ({navigation}: any): JSX.Element {
                             <Text>#Front End</Text>
 
                             <View style={styles.editIconContain}>  
-                              <Image style={styles.editIcon} resizeMode='contain'source={require('../../../assets/images/edit.png')}/>
+                            
+                              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                <Image style={styles.editIcon} resizeMode='contain'source={require('../../../assets/images/edit.png')}/>
+                              </TouchableOpacity>
+                                
                             </View>
                   
                         </View>
@@ -129,12 +153,23 @@ export default function SearchScreen ({navigation}: any): JSX.Element {
 
                           </View>
 
-                      {/*     <View style={styles.containAtributes}>
+                            <ModalView
+                              visible={modalVisible}
+                              transparent={true}
+                              add={Adicionar}
+                              edit={Editar}
+                            />
+                            <ModalAdd
+                              visible={add}
+                              transparent={true}
+                              cancel={CancelAdd}
+                            />
 
-                            <Image style={styles.imageContain} source={require('../../../assets/images/access_time.png')}/>
-                            <Text>{item.created_at}</Text>
-
-                          </View> */}
+                            <ModalEdit
+                              visible={edit}
+                              transparent={true}
+                              cancel={CancelEdit}
+                            />
 
                         </View>
                         

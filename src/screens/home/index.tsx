@@ -42,7 +42,7 @@ export default function HomeScreen (): JSX.Element {
 
 
   useEffect(() => {
-    getUsers() // eslint-disable-line
+    getUsers() 
   }, [])
 
 
