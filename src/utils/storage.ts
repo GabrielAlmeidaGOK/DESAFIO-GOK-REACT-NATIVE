@@ -1,21 +1,54 @@
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Params } from '../models/Params'
 
-export const storeData = ({key, value}: any) =>
-  getData(key).then((data) => {
-    if (data) {
-      AsyncStorage.setItem(key, JSON.stringify([value].concat(data)));
-    } else {
-      AsyncStorage.setItem(key, JSON.stringify([value]));
-    }
-  });
 
-export const getData = (key: any) =>
-  AsyncStorage.getItem(key).then((data) => {
-    if (data) {
-      return Object.values(JSON.parse(data));
-    } else {
-      return [];
-    }
-  });
+const STORAGE = '@save' //Chave AsyncStorage
 
-export const removeData = (key: any) => AsyncStorage.removeItem(key);
+//Puxar informações salvas
+const getStorage = async (): Promise<Params[]> => {
+  const save = await AsyncStorage.getItem(STORAGE)
+
+  let saveUser: Params[] = []
+
+  if (save != null) {
+    saveUser = JSON.parse(save)
+  }
+
+  return saveUser
+}
+
+//Jogar informações para o cache
+const saveUSER = async (org: Params): Promise<void> => {
+  const save = await AsyncStorage.getItem(STORAGE)
+
+  let saveUser: Params[] = []
+
+  if (save != null) {
+    saveUser = JSON.parse(save)
+  }
+
+  const existe = saveUser.includes(org)
+
+  if (!existe) {
+    saveUser.push(org)
+  }
+
+  await AsyncStorage.setItem(STORAGE, JSON.stringify(saveUser))
+}
+
+//Excluir conteúdo da memória
+const SaveDelete = async (org: Params): Promise<void> => {
+  const save = await AsyncStorage.getItem(STORAGE)
+
+  let saveUser: Params[] = []
+
+  if (save != null) {
+    saveUser = JSON.parse(save)
+  }
+
+  const newArray = saveUser.filter(saveUser => saveUser.id !== org.id)
+
+  await AsyncStorage.setItem(STORAGE, JSON.stringify(newArray))
+}
+
+export { getStorage, saveUSER, SaveDelete }

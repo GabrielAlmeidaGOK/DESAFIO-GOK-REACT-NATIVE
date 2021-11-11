@@ -1,93 +1,66 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Alert, Linking, StyleSheet, View, SafeAreaView, FlatList, Image } from 'react-native'
-import { Button, Box, Divider, Text, Pressable } from 'native-base'
+import React from 'react'
+import { StyleSheet, View, SafeAreaView, FlatList, Image } from 'react-native'
+import { Text } from 'native-base'
 import {Typography, Colors} from '../styles'
-import Header from '../components/Header'
+
 import { Params } from '../models/Params'
 
 import { Entypo, Foundation } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ICard {
-  users: Params
   onPress?: any
+  data?: any
+  name?: string
+  avatar?: any
+  hash? : any
 }
 
-export default function Container ({ users, onPress}: ICard): JSX.Element {
+export default function Container ({ onPress, data, }: ICard): JSX.Element {
 
 
-
+  const renderItem = ({ name, avatar, hash}: any) => (
+    <View style={styles.item}>
+              
+                <View style={styles.nameImage}>
+                    <Image 
+                        source={{uri: avatar}}
+                        style={styles.image}
+                    />
+                    <View style={styles.nameContain}>
+                        <View style={styles.containIcon}>
+                        <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
+                            <Text style={styles.name}>{name}</Text>
+                        </TouchableOpacity>
+                        <Entypo name="chevron-small-right" size={40} color="black" style={{marginLeft: 20, marginTop: 5,  width: '20%'}}/>
+                        <TouchableOpacity style={styles.icons} >
+                           
+                            <Foundation name="trash" size={25} color="black" stylße={styles.trash}/>
+                        </TouchableOpacity>
+                          
+                        </View>
+                    
+                        <Text style={styles.arroba}>@{hash}</Text>
+                    </View>
+                </View>
+          
+          </View>   
+  );
+ 
   return (
     
 
       <SafeAreaView style={styles.container}>
 
        <FlatList
-          data={[{name: 'a'}]} 
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }: any) => (
-            <View style={styles.item}>
-              
-                <View style={styles.nameImage}>
-                    <Image 
-                        source={{uri: users.avatar_url}}
-                        style={styles.image}
-                    />
-                    <View style={styles.nameContain}>
-                        <View style={styles.containIcon}>
-                        <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
-                            <Text style={styles.name}>{users.login}</Text>
-                        </TouchableOpacity>
-                        <View style={styles.icons}>
-                            <Entypo name="chevron-small-right" size={40} color="black" style={{marginLeft: 20}}/>
-                            <Foundation name="trash" size={25} color="black" style={styles.trash}/>
-                        </View>
-                          
-                        </View>
-                    
-                        <Text style={styles.arroba}>@{users.login}</Text>
-                    </View>
-                </View>
-          
-          </View>   
-          )}
+          data={data} 
+          keyExtractor={data => data.id}
+          renderItem={renderItem}
         />
 
     </SafeAreaView>
     
-   /*  <Pressable
-      onPress={openBrowser}
-      bg='white.50'
-      borderRadius={10}
-      px={2}
-      py={4}
-      w='87%'
-      shadow={2}
-      flexDirection='row'
-      justifyContent='space-between'
-    >
-      <Image
-        source={{uri: `${organization.avatar_url}`}}
-        width={20}
-        height={20}
-        borderRadius={10}
-        alt={`${organization.login}`}
-      />
-
-      <Divider width={5} bg='white.50' />
-
-      <Box width={0} flexGrow={1}>
-        <Text color='blue.50'>
-          {organization.login}
-        </Text>
-
-        <Text color='grey.50'>
-          {organization.description ?? ''}
-        </Text>
-
-      
-      </Box>
-    </Pressable> */
+  
   )
 
 }
@@ -104,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
- 
+    height: '100%',
   },
 
   item: {
@@ -134,7 +107,7 @@ const styles = StyleSheet.create({
   },
 
   name: {
-      fontSize: Typography.FONT_SIZE_21,
+      fontSize: Typography.FONT_SIZE_20,
       marginLeft: 20,
       marginTop: 10,
       width: '100%'
@@ -156,10 +129,9 @@ const styles = StyleSheet.create({
 
   icons: {
       flexDirection: 'row',
-      marginTop: 10,
+      marginTop: 15,
       alignContent: 'flex-end',
       justifyContent: 'space-between',
-    
   },
 
   trash: {

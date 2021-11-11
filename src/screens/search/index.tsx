@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { Box, Divider, Input, Spinner, Text } from 'native-base'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { searchUsers } from '../../api/api-search';
 import { Params } from '../../models/Params'
 import {View, StyleSheet} from 'react-native'
 import Container from '../../components/Container'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../components/Header'
-
+import {Context} from '../../contexts/Context'
 interface IRoute {
   params: { query: string }
   name: string
@@ -15,11 +15,13 @@ interface IRoute {
 }
 
 export default function SearchScreen ({navigation} : any): JSX.Element {
+  
   const { params }: IRoute = useRoute()
+
+  const { userGit, saved, deleteSave } = useContext(Context)
 
   const { navigate } = useNavigation()
   const [query, setQuery] = useState(params.query)
-
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [users, setUser] = useState<Params | null>(null)
@@ -31,11 +33,13 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
 
     try {
       const response = await searchUsers(query)
-
+   
       if (response === null) {
         setUser(null)
       } else {
         setUser(response)
+        await AsyncStorage.setItem('users', JSON.stringify(response));
+        /* console.log(response)   */    
       }
     } catch {
       setError(true)
@@ -43,6 +47,19 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
       setLoading(false)
     }
   }
+
+
+  const fetch = async () => {
+    try {
+      const data = await AsyncStorage.getItem('users');
+      if (data !== null) {
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
  
   const handle = (): void => {
@@ -55,7 +72,7 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
   }
   useEffect(() => {
     handleSearch() 
-
+    fetch()
   }, [])
 
   const Dados = useCallback((): JSX.Element => {
@@ -64,7 +81,16 @@ export default function SearchScreen ({navigation} : any): JSX.Element {
 
     if (users != null) {
       return (
-        <Container users={users} onPress={handle}/>
+       
+        <Container 
+          onPress={handle}
+          data={users}
+          name={users.login}
+          avatar={users.avatar_url}
+          hash={users.login}
+        />
+    
+       
       )
     }
    

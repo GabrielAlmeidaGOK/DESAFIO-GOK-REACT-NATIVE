@@ -12,7 +12,6 @@ export default function Navigation (): JSX.Element {
     <NavigationContainer>
       <Navigator>
         <Screen name='Home' component={HomeScreen} options={{headerShown: false}}/>
-
         <Screen name='Search' component={SearchScreen} options={{headerShown: false}}/>
         <Screen name='Starred' component={Starred} options={{headerShown: false}}/>
       </Navigator>

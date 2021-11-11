@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import {Typography, Colors} from '../../styles'
 
 import { Params } from '../../models/Params'
-import { storeData, getData, removeData } from "../../utils/storage";
+
 
 const KEY_USERS = "@users";
 

@@ -1,6 +1,6 @@
 //Endpoint para busca
 import { Params } from '../models/Params'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const URL = 'https://api.github.com'
 
 
